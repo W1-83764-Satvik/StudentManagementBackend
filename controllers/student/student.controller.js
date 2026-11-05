@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Student } from "../models/studentModels.js";
+import { Student } from "../../models/studentModels.js";
 
 
 export const createStudent = async (req, res) => {
@@ -41,14 +41,6 @@ export const createStudent = async (req, res) => {
         });
 
     } catch (error) {
-
-        // Handle duplicate email
-        if (error.code === 11000) {
-            return res.status(409).json({
-                success: false,
-                message: "Email already exists"
-            });
-        }
 
         return res.status(500).json({
             success: false,

@@ -6,10 +6,6 @@ const studentSchema = mongoose.Schema({
             type:String,
             required:true
         },
-        password : {
-            type:String,
-            select:false
-        },
         email:{
             type:String,
             required:true,

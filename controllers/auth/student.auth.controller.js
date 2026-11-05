@@ -2,38 +2,44 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
-import {Student} from "../../models/studentModels.js";
+import {Admin} from "../../models/adminModels.js"
 
 export const register = async(req, res)=>{
     
     try{
 
-        const { name, email, password, age, description } = req.body;
+        const { name, email, password } = req.body;
 
-        const existedStudent = await Student.findOne({ email });
+        const existedAdmin = await Admin.findOne({ email });
 
-        if (existedStudent != null) {
+        if (existedAdmin) {
             return res.status(401).json({
                 success: false,
-                message: "Student already created"
+                message: "Admin already created"
             })
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newStudent = {
+        const newAdmin = {
             name,
             email,
-            password: hashedPassword,
-            age,
-            description
+            password: hashedPassword
         }
 
-        await Student.create(newStudent);
+        await Admin.create(newAdmin);
+
+        const payload = {
+            id: newAdmin._id,
+            name: newAdmin.name
+        }
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         return res.status(201).json({
             success: true,
-            message: "Student created"
+            message: "Admin created",
+            token
         })
 
     }catch(e){
@@ -51,16 +57,16 @@ export const login = async(req, res)=>{
 
         const { email, password } = req.body;
 
-        const student = await Student.findOne({email}).select("+password");
+        const admin = await Admin.findOne({email});
 
-        if(student == null){
+        if(admin == null){
             return res.status(401).json({
                 success: false,
-                message: "Student not found"
+                message: "Admin not found"
             })
         }
 
-        const isPasswordValid = await bcrypt.compare(password, student.password);
+        const isPasswordValid = await bcrypt.compare(password, admin.password);
 
         if(!isPasswordValid){
             return res.status(401).json({
@@ -70,8 +76,8 @@ export const login = async(req, res)=>{
         }
 
         const payload ={
-            id: student._id,
-            name: student.name
+            id: admin._id,
+            name: admin.name
         }
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '1h'});
