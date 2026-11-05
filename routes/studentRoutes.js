@@ -5,6 +5,10 @@ import { verifyToken } from "../middleware/auth.middleware.js";
 
  const router = express.Router();
 
+ router.get("/check", (req, res) => {
+     res.json({ message: "Niceeeeeeeeeee" });
+ });
+
  //admin auth routes
 
  router.post("/register", register)
