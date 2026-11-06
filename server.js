@@ -15,7 +15,9 @@ const app = express();
 app.use(express.json());
 
 const allowedOrigins = [
-    "https://my-proj-n5z4yp4xd-satvik-283c.vercel.app"
+    "https://my-proj-n5z4yp4xd-satvik-283c.vercel.app",
+    "https://my-proj-lilac.vercel.app",
+    "http://localhost:5173"
 ];
 
 app.use(cors({
