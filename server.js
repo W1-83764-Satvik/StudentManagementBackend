@@ -15,21 +15,11 @@ const app = express();
 app.use(express.json());
 
 const allowedOrigins = [
-    "https://my-proj-n5z4yp4xd-satvik-283c.vercel.app",
-    "http://localhost:5173"
+    "https://my-proj-n5z4yp4xd-satvik-283c.vercel.app"
 ];
 
 app.use(cors({
-    origin: (origin, callback) => {
-        const normalizedOrigin = origin?.replace(/\/$/, "");
-
-        if (allowedOrigins.includes(normalizedOrigin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true
+    origin:allowedOrigins
 }));
 
 app.use(express.urlencoded({ extended: true }));
