@@ -18,6 +18,7 @@ const allowedOrigins = [
     "https://my-proj-n5z4yp4xd-satvik-283c.vercel.app",
     "https://my-proj-5pv10wnmm-satvik-283c.vercel.app",
     "https://my-proj-u1ohvmttn-satvik-283c.vercel.app",
+    "https://my-proj-3wb0xpqj2-satvik-283c.vercel.app",
     "https://my-proj-lilac.vercel.app",
     "http://localhost:5173"
 ];
