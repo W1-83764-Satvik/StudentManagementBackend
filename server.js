@@ -1,17 +1,38 @@
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDb from "./config/db.js";
-dotenv.config();
-import router from "./routes/studentRoutes.js"
-import dns from 'node:dns';
-dns.setServers(['8.8.8.8', '1.1.1.1']);
+import router from "./routes/studentRoutes.js";
+import dns from "node:dns";
 
+dotenv.config();
+
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 const app = express();
+
 app.use(express.json());
 
-app.use(cors({origin : 'https://my-proj-n5z4yp4xd-satvik-283c.vercel.app/'}));
+const allowedOrigins = [
+    "https://my-proj-n5z4yp4xd-satvik-283c.vercel.app",
+    "http://localhost:5173"
+];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        const normalizedOrigin = origin?.replace(/\/$/, "");
+
+        if (allowedOrigins.includes(normalizedOrigin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true
+}));
+
+app.use(express.urlencoded({ extended: true }));
 
 connectDb();
 
@@ -19,6 +40,6 @@ app.use("/api", router);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, ()=>{
-    console.log("Server started at", port)
-})
+app.listen(port, () => {
+    console.log("Server started at", port);
+});
