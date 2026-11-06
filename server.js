@@ -11,14 +11,7 @@ dns.setServers(['8.8.8.8', '1.1.1.1']);
 const app = express();
 app.use(express.json());
 
-const allowedOrigins = [
-  process.env.CLIENT_URL
-];
-
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+app.use(cors({origin : 'https://my-proj-n5z4yp4xd-satvik-283c.vercel.app/'}));
 
 connectDb();
 
